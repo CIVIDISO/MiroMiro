@@ -41,6 +41,10 @@ def create_app(config_class=Config):
     
     # 启用CORS
     CORS(app, resources={r"/api/*": {"origins": "*"}})
+
+    # Password protection (set APP_PASSWORD env var to enable)
+    from .middleware.auth import require_auth
+    require_auth(app)
     
     # 注册模拟进程清理函数（确保服务器关闭时终止所有模拟进程）
     from .services.simulation_runner import SimulationRunner
